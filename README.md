@@ -22,6 +22,16 @@ Browser extension (Manifest V3) that highlights **suspicious links** while you b
 
 Open `test-page.html` in the browser (via a local or `http://` URL so the content script can run) to see example links and how they are marked.
 
+## Screenshots
+
+**Test page** — Typosquats and list-based links with badges; safe master toggle off (no green checks), blocked toggle on (red X on flagged links).
+
+![Phish Catcher on the bundled test page](docs/screenshot-test-page.png)
+
+**Live site** — Example on Google results with `bing.com` on the blocked list: matching links show the red X badge next to the URL.
+
+![Phish Catcher flagging a blocked domain on a search results page](docs/screenshot-bing-search.png)
+
 ## How it works
 
 1. The **content script** scans `a[href]` elements on each page.
