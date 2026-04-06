@@ -24,9 +24,13 @@ Open `test-page.html` in the browser (via a local or `http://` URL so the conten
 
 ## Screenshots
 
-**Test page** — Typosquats and list-based links with badges; safe master toggle off (no green checks), blocked toggle on (red X on flagged links).
+**Test page (blocked indicators on)** — Safe master toggle **off**, blocked toggle **on**: typosquats and blocked-list links show a red X; no green checks.
 
-![Phish Catcher on the bundled test page](docs/screenshot-test-page.png)
+![Phish Catcher test page with red X badges](docs/screenshot-test-page.png)
+
+**Test page (safe indicators on)** — Safe toggle **on**, blocked toggle **off**: legitimate and safe-list links show a green check; no red X badges.
+
+![Phish Catcher test page with green check badges](docs/screenshot-test-page-safe-on.png)
 
 **Live site** — Example on Google results with `bing.com` on the blocked list: matching links show the red X badge next to the URL.
 
