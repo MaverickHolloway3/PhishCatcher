@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Phish Catcher</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        width: 320px;
+        margin: 0;
+        padding: 12px 14px 14px;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        font-size: 13px;
+        color: #1a1a1a;
+        background: #f8f9fa;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      section {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      section h2 {
+        margin: 0;
+        flex: 1;
+        min-width: 0;
+        font-size: 12px;
+        font-weight: 600;
+        color: #444;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        margin: 0;
+      }
+      .switch-track {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background: #cbd5e1;
+        border-radius: 20px;
+        transition: background 0.2s;
+      }
+      .switch-track::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        left: 2px;
+        top: 2px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s;
+      }
+      .switch input:focus-visible + .switch-track {
+        outline: 2px solid #2563eb;
+        outline-offset: 2px;
+      }
+      .switch input:checked + .switch-track {
+        background: #2563eb;
+      }
+      .switch input:checked + .switch-track::after {
+        transform: translateX(16px);
+      }
+      .row {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+      input[type="text"] {
+        flex: 1;
+        min-width: 0;
+        padding: 6px 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+      }
+      button {
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      button.add {
+        background: #2563eb;
+        color: #fff;
+      }
+      button.add:hover {
+        background: #1d4ed8;
+      }
+      button.remove {
+        padding: 2px 8px;
+        background: #fee2e2;
+        color: #991b1b;
+        font-size: 11px;
+      }
+      button.remove:hover {
+        background: #fecaca;
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-height: 120px;
+        overflow-y: auto;
+      }
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 4px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 12px;
+        word-break: break-all;
+      }
+      li:last-child {
+        border-bottom: none;
+      }
+      .empty {
+        color: #888;
+        font-size: 12px;
+        padding: 4px 0;
+      }
+      #status {
+        min-height: 18px;
+        font-size: 11px;
+        color: #15803d;
+        margin-top: 4px;
+      }
+      #status.error {
+        color: #b91c1c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Phish Catcher</h1>
+
+    <section aria-labelledby="safe-heading">
+      <div class="section-head">
+        <h2 id="safe-heading">Safe domains</h2>
+        <label class="switch" title="When off, no green checkmarks (list + built-in trusted brands)">
+          <input
+            type="checkbox"
+            id="safe-enabled"
+            role="switch"
+            aria-label="Show safe indicators on web pages"
+          />
+          <span class="switch-track" aria-hidden="true"></span>
+        </label>
+      </div>
+      <p class="empty" style="margin: 0 0 8px; font-size: 11px">
+        Never flag links to these domains (including subdomains). Turn the switch off to hide every green
+        checkmark, including for built-in trusted brands.
+      </p>
+      <div class="row">
+        <input type="text" id="safe-input" placeholder="e.g. paypal.com" autocomplete="off" />
+        <button type="button" class="add" id="safe-add">Add</button>
+      </div>
+      <ul id="safe-list" aria-label="Safe domains list"></ul>
+    </section>
+
+    <section aria-labelledby="block-heading">
+      <div class="section-head">
+        <h2 id="block-heading">Blocked domains</h2>
+        <label class="switch" title="When off, no red X badges (list + built-in typosquat detection)">
+          <input
+            type="checkbox"
+            id="block-enabled"
+            role="switch"
+            aria-label="Show flagged / suspicious indicators on web pages"
+          />
+          <span class="switch-track" aria-hidden="true"></span>
+        </label>
+      </div>
+      <p class="empty" style="margin: 0 0 8px; font-size: 11px">
+        Always flag links to these domains (including subdomains). Turn the switch off to hide every red X,
+        including for built-in typosquat warnings.
+      </p>
+      <div class="row">
+        <input type="text" id="block-input" placeholder="e.g. bad-actor.com" autocomplete="off" />
+        <button type="button" class="add" id="block-add">Add</button>
+      </div>
+      <ul id="block-list" aria-label="Blocked domains list"></ul>
+    </section>
+
+    <p id="status" role="status"></p>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

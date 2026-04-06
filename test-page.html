@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Phish Catcher — manual test</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 40rem;
+        margin: 2rem auto;
+        line-height: 1.6;
+      }
+      h2 {
+        margin-top: 1.75rem;
+      }
+      .demo-sub {
+        margin: 1rem 0 0.35rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #444;
+      }
+      .phish-catcher-demo-empty {
+        color: #666;
+        font-style: italic;
+        list-style: none;
+        margin-left: 0;
+        padding-left: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Phish Catcher test page</h1>
+    <p>
+      Load the unpacked extension, then open this page over <strong>http://</strong> (see below). A
+      red “X” badge should appear only on the typosquat links.
+    </p>
+
+    <h2>Should be flagged (typosquats)</h2>
+    <p class="demo-sub">Built-in examples</p>
+    <ul>
+      <li><a href="https://payppal.com/">payppal.com (extra letter)</a></li>
+      <li><a href="https://g00gle.com/">g00gle.com (zeros)</a></li>
+      <li><a href="https://paypa1.com/login">paypa1.com (1 for l)</a></li>
+      <li><a href="https://bankofamericaa.com/">bankofamericaa.com (extra a)</a></li>
+    </ul>
+    <p class="demo-sub">Your blocked domains (from popup)</p>
+    <ul id="phish-catcher-demo-blocked"></ul>
+
+    <h2>Should not be flagged (legitimate patterns)</h2>
+    <p class="demo-sub">Built-in examples</p>
+    <ul>
+      <li><a href="https://paypal.com/">paypal.com</a></li>
+      <li><a href="https://www.paypal.com/">www.paypal.com</a></li>
+      <li><a href="https://accounts.google.com/">accounts.google.com</a></li>
+      <li><a href="https://www.bankofamerica.com/">www.bankofamerica.com</a></li>
+      <li><a href="https://example.com/">unrelated (example.com)</a></li>
+    </ul>
+    <p class="demo-sub">Your safe domains (from popup)</p>
+    <ul id="phish-catcher-demo-safe"></ul>
+  </body>
+</html>
